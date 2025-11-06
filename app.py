@@ -306,7 +306,7 @@ if theme != "Claro (default)":
         accent_color = "#606060"
         sidebar_bg = "#2F2F2F"  # gris oscuro elegante
 
-    # CSS global dinámico (Dashboard + Sidebar)
+    # === CSS GLOBAL ===
     st.markdown(f"""
     <style>
     html, body, [class*="css"] {{
@@ -314,25 +314,33 @@ if theme != "Claro (default)":
         background-color: {bg_color} !important;
         color: {text_color} !important;
     }}
+
+    /* === Aplicar fondo principal === */
     .stApp {{
         padding: {padding_value};
         background-color: {bg_color};
         color: {text_color};
     }}
+
+    /* === Encabezados === */
     h1, h2, h3, h4, h5, h6 {{
         color: {accent_color} !important;
     }}
+
+    /* === Botones === */
     .stButton>button {{
         background-color: {accent_color};
         color: white !important;
         border-radius: 10px;
         border: none;
+        transition: 0.3s ease;
     }}
     .stButton>button:hover {{
         background-color: {text_color};
         color: {bg_color} !important;
         border: 1px solid {accent_color};
     }}
+
     hr {{
         border: 1px solid {accent_color};
     }}
@@ -358,6 +366,18 @@ if theme != "Claro (default)":
     section[data-testid="stSidebar"] .stImage img {{
         border-radius: 8px;
         border: 2px solid {accent_color};
+    }}
+
+    /* === Barra superior (header con los tres puntitos) === */
+    header[data-testid="stHeader"] {{
+        background-color: {bg_color} !important;
+        color: {text_color} !important;
+        border-bottom: 2px solid {accent_color};
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: background-color 0.3s ease;
+    }}
+    header[data-testid="stHeader"] * {{
+        color: {text_color} !important;
     }}
     </style>
     """, unsafe_allow_html=True)
@@ -1226,3 +1246,4 @@ with col2:
         st.markdown("<p style='color:#888; text-align:center;'>QR no disponible</p>", unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
+
