@@ -381,6 +381,14 @@ if theme != "Claro (default)":
     }}
     </style>
     """, unsafe_allow_html=True)
+else:
+    padding_value = '8px' if compact else '18px'
+    st.markdown(f"""
+    <style>
+    html, body {{ font-size: {font_size}px; }}
+    .stApp {{ padding: {padding_value}; }}
+    </style>
+    """, unsafe_allow_html=True)
 # -----------------------------
 # Main layout
 # -----------------------------
@@ -1246,3 +1254,4 @@ with col2:
         st.markdown("<p style='color:#888; text-align:center;'>QR no disponible</p>", unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
+
