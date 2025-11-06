@@ -1,0 +1,198 @@
+# ============================================
+# GITIGNORE - Simulador de Inversiones y Bonos
+# ============================================
+
+# 🔐 Archivos de Configuración Sensible
+# ============================================
+.streamlit/secrets.toml
+.env
+.env.local
+.env.*.local
+
+
+# 🐍 Python
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Entornos virtuales
+venv/
+ENV/
+env/
+.venv
+.env
+env.bak/
+venv.bak/
+
+# PEP 582
+__pypackages__/
+
+# Caché de pip
+.pip-cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+
+# 📊 IDE y Editores
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+.vim/
+.emacs.d/
+
+
+# 🔄 Streamlit
+# ============================================
+.streamlit/
+*.streamlit.json
+
+
+# 📁 Archivos Temporales
+# ============================================
+*.tmp
+*.temp
+*.log
+*.txt~
+tmp/
+temp/
+*.bak
+*.backup
+*.cache
+
+
+# 📥 Descarga de Archivos (si están en raíz)
+# ============================================
+*.pdf
+downloads/
+backups/
+
+
+# 🗂️ Sistema Operativo
+# ============================================
+# macOS
+.AppleDouble
+.LSOverride
+*.localized
+._*
+.DS_Store
+.AppleDB
+.AppleDesktop
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.lnk
+
+# Linux
+.directory
+.Trash-*
+
+
+# 📦 Dependencias de Sistema
+# ============================================
+# No se deben incluir ni venv ni node_modules
+node_modules/
+
+
+# 🔍 Archivos de Sistema
+# ============================================
+*.lock
+Pipfile.lock
+poetry.lock
+yarn.lock
+
+
+# 📊 Archivos de Datos Temporales
+# ============================================
+data/
+*.db
+*.sqlite
+*.sqlite3
+.data/
+
+
+# 📈 Caché de Jupyter
+# ============================================
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+*.ipynb
+
+
+# 🚀 CI/CD
+# ============================================
+.github/workflows/logs/
+.travis.yml
+.circleci/
+
+
+# 🔐 Archivos Privados
+# ============================================
+private/
+secrets/
+api_keys/
+credentials/
+
+
+# 📋 Notas y Borrador del Desarrollador
+# ============================================
+NOTAS.txt
+TODO.txt
+DESARROLLO.md
+*.md~
+
+
+# 🎨 Archivos de Build
+# ============================================
+dist/
+build/
+*.whl
+
+
+# ✅ Excepciones Importantes
+# ============================================
+# (Por si necesitas trackear algo específico)
+!.gitkeep
+!/modules/__init__.py

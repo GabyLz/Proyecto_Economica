@@ -1,10 +1,31 @@
-streamlit
-numpy
-pandas
-matplotlib
-pillow
-openai
+# ============================================
+# SIMULADOR REAL DE INVERSIONES Y BONOS
+# Dependencias del Proyecto
+# ============================================
+
+# Framework Web & UI
+streamlit>=1.28.0
+streamlit-option-menu>=0.3.12
+
+# Procesamiento de Datos
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Visualización
+matplotlib>=3.7.0
 plotly>=5.18.0
+pillow>=10.0.0
 kaleido==0.2.1
-reportlab
+
+# Datos Financieros
 yfinance>=0.2.66
+requests>=2.31.0
+
+# Generación de Reportes
+reportlab>=4.0.0
+
+# IA y APIs
+openai>=1.0.0
+
+# Utilidades
+python-dotenv>=1.0.0

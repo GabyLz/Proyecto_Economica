@@ -263,7 +263,7 @@ with st.sidebar:
     st.header("Ajustes de diseño ✨")
     theme = st.selectbox(
         "Tema",
-        ["Claro (default)", "Verde - Energía", "Azul - Profesional", "Minimal"]
+        ["Default", "Verde - Energía", "Azul - Profesional", "Minimal"]
     )
     
     # Guardar tema en session_state para otros módulos
@@ -285,43 +285,29 @@ with st.sidebar:
 # -----------------------------
 # 💅 Aplicar estilos globales dinámicos
 # -----------------------------
+# 💅 Aplicar estilos globales dinámicos
+# ============================================
 padding_value = '8px' if compact else '18px'
 
-# Solo aplicar estilos si NO está en el modo "default"
-if theme != "Claro (default)":
-    if theme == "Verde - Energía":
-        bg_color = "#F0FFF4"
-        text_color = "#065F46"
-        accent_color = "#10B981"
-        sidebar_bg = "#A1D2B4"
-    elif theme == "Azul - Profesional":
-        bg_color = "#F0F9FF"
-        text_color = "#1E3A8A"
-        accent_color = "#2563EB"
-        sidebar_bg = "#E8F0FF"
-    elif theme == "Minimal":
-        # 🎨 Tono oscuro suave con buen contraste
-        bg_color = "#F5F5F5"
-        text_color = "#2C2C2C"
-        accent_color = "#606060"
-        sidebar_bg = "#2F2F2F"  # gris oscuro elegante
+# Colores por defecto (Verde)
+accent_color = "#10B981"
+accent_hover = "#059669"
 
-    # === CSS GLOBAL ===
+# Solo aplicar estilos si NO está en el modo "default"
+if theme != "Default":
+    if theme == "Verde - Energía":
+        accent_color = "#10B981"
+        accent_hover = "#059669"
+    elif theme == "Azul - Profesional":
+        accent_color = "#2563EB"
+        accent_hover = "#1D4ED8"
+    elif theme == "Minimal":
+        accent_color = "#606060"
+        accent_hover = "#404040"
+
+    # === CSS GLOBAL - Solo acentos, respeta tema del usuario ===
     st.markdown(f"""
     <style>
-    html, body, [class*="css"] {{
-        font-size: {font_size}px !important;
-        background-color: {bg_color} !important;
-        color: {text_color} !important;
-    }}
-
-    /* === Aplicar fondo principal === */
-    .stApp {{
-        padding: {padding_value};
-        background-color: {bg_color};
-        color: {text_color};
-    }}
-
     /* === Encabezados === */
     h1, h2, h3, h4, h5, h6 {{
         color: {accent_color} !important;
@@ -329,64 +315,67 @@ if theme != "Claro (default)":
 
     /* === Botones === */
     .stButton>button {{
-        background-color: {accent_color};
+        background-color: {accent_color} !important;
         color: white !important;
         border-radius: 10px;
         border: none;
         transition: 0.3s ease;
     }}
     .stButton>button:hover {{
-        background-color: {text_color};
-        color: {bg_color} !important;
-        border: 1px solid {accent_color};
+        background-color: {accent_hover} !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }}
 
+    /* === Líneas horizontales === */
     hr {{
-        border: 1px solid {accent_color};
+        border: 1px solid {accent_color} !important;
+        opacity: 0.6;
     }}
 
-    /* === Sidebar completo === */
-    section[data-testid="stSidebar"] {{
-        background-color: {sidebar_bg} !important;
-        color: {text_color} !important;
-        padding: 20px;
-        border-radius: 0 10px 10px 0;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-    }}
+    /* === Sidebar encabezados === */
     section[data-testid="stSidebar"] h1,
     section[data-testid="stSidebar"] h2,
     section[data-testid="stSidebar"] h3,
     section[data-testid="stSidebar"] h4,
     section[data-testid="stSidebar"] h5,
-    section[data-testid="stSidebar"] h6,
-    section[data-testid="stSidebar"] p,
-    section[data-testid="stSidebar"] label {{
-        color: {"#FFFFFF" if theme == "Minimal" else text_color} !important;
+    section[data-testid="stSidebar"] h6 {{
+        color: {accent_color} !important;
     }}
+
     section[data-testid="stSidebar"] .stImage img {{
         border-radius: 8px;
         border: 2px solid {accent_color};
     }}
 
-    /* === Barra superior (header con los tres puntitos) === */
+    /* === Barra superior === */
     header[data-testid="stHeader"] {{
-        background-color: {bg_color} !important;
-        color: {text_color} !important;
-        border-bottom: 2px solid {accent_color};
+        border-bottom: 2px solid {accent_color} !important;
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        transition: background-color 0.3s ease;
     }}
-    header[data-testid="stHeader"] * {{
-        color: {text_color} !important;
+
+    /* === Links === */
+    a {{
+        color: {accent_color} !important;
+    }}
+
+    a:hover {{
+        color: {accent_hover} !important;
+    }}
+
+    /* === Tamaño de fuente global === */
+    html, body, [class*="css"] {{
+        font-size: {font_size}px !important;
     }}
     </style>
     """, unsafe_allow_html=True)
 else:
-    padding_value = '8px' if compact else '18px'
+    # Modo default (Claro) - solo aplicar tamaño de fuente
     st.markdown(f"""
     <style>
-    html, body {{ font-size: {font_size}px; }}
-    .stApp {{ padding: {padding_value}; }}
+    html, body, [class*="css"] {{ 
+        font-size: {font_size}px !important;
+    }}
     </style>
     """, unsafe_allow_html=True)
 # -----------------------------
@@ -1217,19 +1206,50 @@ with tab_chatbot:
 # Footer 
 st.markdown("---")
 
+# Colores de borde según el tema
+footer_border_color = "#10B981"
+footer_border_width = "2px"
 
-st.markdown("""
-<div style="
-    background-color: #f8f9fa;
+if theme == "Verde - Energía":
+    footer_border_color = "#10B981"
+elif theme == "Azul - Profesional":
+    footer_border_color = "#2563EB"
+elif theme == "Minimal":
+    footer_border_color = "#606060"
+else:  # Default
+    footer_border_color = "#CCCCCC"
+
+st.markdown(f"""
+<style>
+.footer-container {{
+    border: {footer_border_width} solid {footer_border_color};
     border-radius: 15px;
     padding: 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-">
-    <div style="flex: 1; color:#333;">
-        <h4 style="margin-bottom:5px;">💼 Simulador Real de Inversiones</h4>
-        <p style="margin:0; font-size:15px; color:#555;">
+    transition: all 0.3s ease;
+}}
+
+.footer-text {{
+    flex: 1;
+}}
+
+.footer-text h4 {{
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}}
+
+.footer-text p {{
+    margin: 0;
+    font-size: 15px;
+}}
+</style>
+
+<div class="footer-container">
+    <div class="footer-text">
+        <h4>💼 Simulador Real de Inversiones</h4>
+        <p>
             ¿Tienes algún problema o sugerencia? 
             <strong>Comunícate con el área de mantenimiento</strong> 
             escaneando el código QR o escribiéndonos directamente.
