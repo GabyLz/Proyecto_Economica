@@ -32,6 +32,9 @@ from modules.market_comparison_ui import show_market_comparison
 # Importar módulo de chatbot
 from modules.chatbot_assistant import show_chatbot, show_chatbot_compact
 
+# Importar módulo de conversor de monedas
+from modules.fx_ui import show_fx_converter_widget
+
 # Cliente OpenAI
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 st.set_page_config(page_title="Simulador Real de Inversiones", layout="wide")
@@ -394,11 +397,12 @@ st.markdown("---")
 # Inicializar sesión de histórico
 init_user_session()
 
-tab_acciones, tab_bonos, tab_historico, tab_chatbot = st.tabs([
+tab_acciones, tab_bonos, tab_historico, tab_chatbot, tab_fx = st.tabs([
     "💰 Acciones", 
     "📈 Bonos", 
     "📜 Mi Histórico",
-    "💬 Chatbot IA"
+    "💬 Chatbot IA",
+    "💱 Conversor FX"
 ])
 
 # =================
@@ -650,7 +654,7 @@ with tab_acciones:
                 "displaylogo": False,   # quita el logo de Plotly
                 "scrollZoom": True      # permite hacer zoom con la rueda del ratón
             },
-            use_container_width=True    # (opcional) hace que el gráfico ocupe todo el ancho del contenedor
+            width='stretch'    # (opcional) hace que el gráfico ocupe todo el ancho del contenedor
         )
 
         # Actualizar datos en sesión
@@ -686,7 +690,7 @@ with tab_acciones:
                 data=csv,
                 file_name='evolucion_fondo.csv',
                 mime='text/csv',
-                use_container_width=True
+                width='stretch'
             )
 
         # 🧮 Columna 2: Edad final
@@ -749,7 +753,7 @@ with tab_acciones:
                     
                 )
 
-                if st.button("📤 Enviar PDF por correo", use_container_width=True):
+                if st.button("📤 Enviar PDF por correo", width='stretch'):
                     try:
                         enviar_email(correo, pdf_buffer, "Resultados_Acciones.pdf")
                         st.success(f"✅ Se envió el PDF con los resultados a **{correo}**")
@@ -1202,6 +1206,12 @@ with tab_historico:
 # =================
 with tab_chatbot:
     show_chatbot()
+
+# =================
+# PESTAÑA CONVERSOR FX
+# =================
+with tab_fx:
+    show_fx_converter_widget()
 
 # Footer 
 st.markdown("---")

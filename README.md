@@ -46,6 +46,17 @@
 - **Reportes profesionales** con PDF descargable
 - **Soporte integrado**: Código QR que conecta con WhatsApp de soporte técnico
 
+### 💱 Conversor de Monedas (FX)
+- **Tasas en tiempo real** (API gratuita - open.er-api.com, sin clave requerida)
+- **Soporte para 45+ monedas** incluyendo todas las latinoamericanas: ARS, MXN, BRL, CLP, COP, PEN, UYU, VES
+- **Panel dinámico de tasas** mostrando monedas relevantes vs. moneda de referencia
+- **Indicadores visuales de fuente**: 🔴 Tasa en tiempo real (API), 🟡 Tasa en cache (última hora), 🟢 Tasa manual
+- **Cache inteligente** con TTL de 1 hora y persistencia en JSON
+- **Fallback manual** si la API no está disponible
+- **Última conversión mostrada** con detalles completos
+- **Reintentos automáticos** con backoff exponencial (3 intentos)
+- **Auditoría completa** (timestamp, fuente, proveedor, tasa aplicada)
+
 ## 🚀 Inicio Rápido
 
 ### Requisitos Previos
@@ -110,6 +121,8 @@ Simulador-de-inversiones-y-bonos/
 │   ├── __init__.py
 │   ├── bond_comparables.py        # Datos y funciones de bonos
 │   ├── chatbot_assistant.py       # Asistente IA conversacional
+│   ├── fx_converter.py            # Motor de conversión de monedas
+│   ├── fx_ui.py                   # UI del conversor FX (Streamlit)
 │   ├── market_comparison_ui.py    # Interfaz de comparación de mercado
 │   ├── market_data.py             # Integración Yahoo Finance
 │   ├── presets.py                 # Plantillas predefinidas
@@ -149,6 +162,30 @@ Asistente financiero con IA:
 - Gestión del historial de mensajes
 - Contexto dinámico de usuario
 - Interfaz compacta y completa
+
+### `modules/fx_converter.py`
+Motor de conversión de monedas (FX):
+- Obtención de tasas desde API gratuita (open.er-api.com)
+- Clase `FXCache` para gestión inteligente de cache con TTL y persistencia JSON
+- Soporte para 45+ monedas (todas las latinoamericanas prioritarias)
+- Tasas spot (tiempo real) con validación de códigos ISO 4217
+- Retry automático con backoff exponencial (máx 3 intentos, 1s-2s-4s)
+- Excepciones personalizadas: `UnsupportedCurrencyError`, `RateNotFoundError`, `ProviderError`
+- Logging completo para auditoría y debugging
+- Funciones públicas: `get_fx_rate()`, `convert_currency()`, `is_valid_currency()`, `get_supported_currencies()`
+
+### `modules/fx_ui.py`
+Interfaz Streamlit del conversor FX:
+- Widget interactivo `show_fx_converter_widget()` con conversión en tiempo real
+- Entrada de monto personalizable con validación
+- Selectores de monedas con indexación dinámica
+- Botón "↔️ Invertir" para intercambiar monedas origen/destino
+- **Panel dinámico de tasas**: muestra 10 monedas relevantes vs. moneda de referencia
+- Indicadores visuales de fuente (🔴 API en tiempo real, 🟡 Cache, 🟢 Manual)
+- Visualización de última conversión realizada con métricas
+- Opciones avanzadas: tasa manual (fallback), limpiar cache
+- Manejo robusto de errores con mensajes intuitivos
+- Integración perfecta con `fx_converter.py` y session_state de Streamlit
 
 ### `modules/market_comparison_ui.py`
 Componente UI para comparaciones:
@@ -205,6 +242,54 @@ Gestión de datos y persistencia:
    - Clasificación del spread
    - Bonos comparables
    - Evaluación de riesgo
+
+### Conversor de Monedas (FX)
+
+1. **Accede a la pestaña "💱 Conversor FX"**
+
+2. **Ingresa parámetros de conversión**:
+   - Monto a convertir (ej: 100)
+   - Moneda origen (ej: PEN - Sol Peruano)
+   - Moneda destino (ej: USD - Dólar)
+
+3. **Realiza la conversión**:
+   - Presiona "🔄 Convertir" para obtener tasa en tiempo real
+   - Visualiza tasa aplicada y timestamp
+   - Verifica fuente de la tasa en indicador (🔴 API | 🟡 Cache | 🟢 Manual)
+   - Observa resultado con formula de cálculo
+
+4. **Funciones avanzadas**:
+   - **↔️ Invertir**: Intercambia moneda origen/destino con un clic
+   - **Tasa manual**: Si API falla, proporciona fallback manual
+   - **Limpiar cache**: Fuerza actualización de tasas desde API
+   - **Moneda de referencia**: Selector para panel dinámico de tasas
+
+5. **Panel de tasas relevantes**:
+   - Muestra tasa de 10 monedas importantes vs. tu moneda de referencia
+   - Útil para comparar múltiples conversiones simultáneamente
+   - Cada tasa incluye indicador de fuente
+
+6. **Monedas soportadas** (45+ opciones):
+   
+   **Latinoamericanas (Prioritarias):**
+   - �� **PEN** - Sol Peruano ⭐
+   - �� **ARS** - Peso Argentino
+   - 🇧🇷 **BRL** - Real Brasileño
+   - 🇨🇱 **CLP** - Peso Chileno
+   - 🇨🇴 **COP** - Peso Colombiano
+   - �� **MXN** - Peso Mexicano
+   - 🇺🇾 **UYU** - Peso Uruguayo
+   - 🇻🇪 **VES** - Bolívar Venezolano
+   
+   **Principales:**
+   - 🇺🇸 **USD** - Dólar Estadounidense
+   - 🇪🇺 **EUR** - Euro
+   - 🇬🇧 **GBP** - Libra Esterlina
+   - 🇯🇵 **JPY** - Yen Japonés
+   - 🇨🇭 **CHF** - Franco Suizo
+   - 🇨🇦 **CAD** - Dólar Canadiense
+   
+   **Y 30+ más** (AUD, NZD, SGD, HKD, CNY, INR, THB, KRW, SEK, NOK, DKK, etc.)
 
 ### Consulta con IA
 

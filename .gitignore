@@ -152,6 +152,7 @@ data/
 *.sqlite
 *.sqlite3
 .data/
+fx_cache.json
 
 
 # 📈 Caché de Jupyter

@@ -27,5 +27,8 @@ reportlab>=4.0.0
 # IA y APIs
 openai>=1.0.0
 
+# Conversor de monedas (FX)
+requests>=2.31.0
+
 # Utilidades
 python-dotenv>=1.0.0

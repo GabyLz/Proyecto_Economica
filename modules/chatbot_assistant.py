@@ -251,7 +251,7 @@ Eres un asistente financiero experto y amigable. Tu objetivo es ayudar al usuari
     col1, col2, col3 = st.columns([1, 1, 1])
     
     with col2:
-        if st.button("🗑️ Limpiar conversación", use_container_width=True, type="secondary"):
+        if st.button("🗑️ Limpiar conversación", width='stretch', type="secondary"):
             st.session_state.chat_messages = []
             st.rerun()
     
@@ -278,7 +278,7 @@ def show_chatbot_compact():
     # Input compacto
     with st.form("chat_compact_form", clear_on_submit=True):
         user_input = st.text_input("Pregunta rápida:", key="chat_compact_input")
-        submitted = st.form_submit_button("Enviar", use_container_width=True)
+        submitted = st.form_submit_button("Enviar", width='stretch')
         
         if submitted and user_input:
             add_message("user", user_input)
@@ -314,6 +314,6 @@ Pregunta: {user_input}
             except Exception as e:
                 st.error(f"❌ Error: {str(e)}")
     
-    if st.button("💬 Ver chat completo", use_container_width=True, type="primary"):
+    if st.button("💬 Ver chat completo", width='stretch', type="primary"):
         st.session_state.show_full_chat = True
         st.rerun()
