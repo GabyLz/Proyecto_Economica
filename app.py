@@ -393,7 +393,16 @@ with col2:
     st.caption("Desarrollado con cariño — Grupo 09")
 
 st.markdown("---")
+st.subheader("📋 Información del inversionista")
+col_info1, col_info2, col_info3 = st.columns(3)
+with col_info1:
+    nombre_general = st.text_input("Nombre completo", help="Tu nombre para personalizar el reporte.")
+with col_info2:
+    edad_general = st.number_input("Edad actual", min_value=18, max_value=100, value=30, help="Edad que tienes actualmente.")
+with col_info3:
+    correo_general = st.text_input("Correo electrónico", help="A este correo se enviará el PDF con tus resultados.")
 
+st.markdown("---")
 # Inicializar sesión de histórico
 init_user_session()
 
@@ -456,9 +465,9 @@ with tab_acciones:
         
         # Información del inversionista (agregado)
         st.markdown("### Información del inversionista")
-        nombre = st.text_input("Nombre completo", help="Tu nombre para personalizar el reporte.")
-        edad = st.number_input("Edad actual", min_value=18, max_value=100, value=30, help="Edad que tienes actualmente.")
-        correo = st.text_input("Correo electrónico", help="A este correo se enviará el PDF con tus resultados.")
+        nombre = nombre_general
+        edad = edad_general
+        correo = correo_general
 
         st.subheader("Parámetros de la inversión")
         r1, r2, r3 = st.columns([1,1,1])
@@ -916,9 +925,9 @@ with tab_bonos:
         
         # Información del inversionista (agregado)
         st.markdown("### Información del inversionista")
-        nombre = st.text_input("Nombre completo (Bono)", help="Tu nombre para personalizar el reporte.", key="nombre_b")
-        edad = st.number_input("Edad actual (Bono)", min_value=18, max_value=100, value=30, help="Edad que tienes actualmente.", key="edad_b")
-        correo = st.text_input("Correo electrónico (Bono)", help="A este correo se enviará el PDF con tus resultados.", key="correo_b")
+        nombre = nombre_general
+        edad = edad_general
+        correo = correo_general
 
         c1, c2 = st.columns(2)
         with c1:
