@@ -1256,85 +1256,35 @@ st.markdown(f"""
 }}
 </style>
 #prueba
-import base64
-QR_IMAGE_PATH = os.path.join("telegram", "qr_contacto.png") 
-
-# --- 2. FUNCIÓN DE UTILIDAD ---
-def get_image_base64(path):
-    """Convierte una imagen local en una cadena Base64 Data URI."""
-    try:
-        if not os.path.exists(path):
-            # Si el archivo no existe, devuelve None
-            return None
-            
-        with open(path, "rb") as image_file:
-            base64_string = base64.b64encode(image_file.read()).decode('utf-8')
-            # Retorna la Data URI completa: 'data:image/png;base64,...'
-            return f"data:image/png;base64,{base64_string}"
-            
-    except Exception as e:
-        # En caso de error de lectura o codificación
-        st.error(f"Error al codificar la imagen a Base64: {e}")
-        return None
-
-# --- 3. CONTENIDO PRINCIPAL DE LA APP ---
-st.set_page_config(layout="wide") # Opcional: para usar todo el ancho
-st.title("Ejemplo de Simulador de Inversiones")
-st.write("Aquí iría el contenido principal de tu aplicación.")
-
-# Agrega espacio de ejemplo para simular una página larga
-for i in range(30):
-    st.write(f"Contenido de la aplicación, línea {i+1}...")
-
-# --- 4. GENERACIÓN Y RENDERIZADO DEL FOOTER ---
-
-# 4.1. Intentar obtener la cadena Base64
-base64_qr_code = get_image_base64(QR_IMAGE_PATH)
-
-if base64_qr_code:
-    # 4.2. Definición del HTML con Base64 INCORPORADO
-    # NOTA: Se usan comillas triples """ para cadenas multilínea.
-    # El HTML utiliza 'position: fixed' para mantenerse visible en el fondo.
-    footer_html = f"""
-    <div style="
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background-color: #f1f1f1; 
-        padding: 10px 20px;
-        border-top: 2px solid #ddd;
-        display: flex; /* Usa flexbox para las 'columnas' */
-        align-items: center;
-        justify-content: space-between;
-        box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-        z-index: 1000; /* Asegura que esté sobre otros elementos */
-    ">
-        <div style="flex: 4; padding-right: 20px;">
-            <h4 style="margin: 0 0 5px 0; font-size: 1.1em;">💼 Simulador Real de Inversiones</h4>
-            <p style="margin: 0; font-size: 0.9em;">
-                ¿Tienes algún problema o sugerencia? 
-                <strong>Comunícate con el área de mantenimiento</strong> 
-                escaneando el código QR o escribiéndonos directamente.
-            </p>
-        </div>
-        <div style="flex: 1.2; text-align: center;">
-            <img 
-                src="{base64_qr_code}" 
-                alt="Código QR de Contacto" 
-                style="width: 120px; height: auto; display: block; margin: 0 auto; border: 1px solid #ccc; border-radius: 5px;"
-            >
-            <p style="font-size: 0.75em; margin-top: 5px; color: #555;">Escanéame 📱</p>
-        </div>
+<div class="footer-container">
+    <div class="footer-text">
+        <h4>💼 Simulador Real de Inversiones</h4>
+        <p>
+            ¿Tienes algún problema o sugerencia? 
+            <strong>Comunícate con el área de mantenimiento</strong> 
+            escaneando el código QR o escribiéndonos directamente.
+        </p>
     </div>
-    """
-    
-    # 4.3. Renderizar el HTML
-    st.markdown(footer_html, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
-else:
-    # 4.4. Mensaje de advertencia si la imagen no existe
-    st.warning("El pie de página no se cargó completamente. Asegúrate de que el archivo 'telegram/qr_contacto.png' exista.")
+col1, col2 = st.columns([4, 1.2])
+with col1:
+    st.empty()
+with col2:
+    qr_path = os.path.join("telegram", "qr_contacto.png")
+    if os.path.exists(qr_path):
+        qr_image = Image.open(qr_path)
+        st.image(
+            qr_image, 
+            width=120, 
+            caption="Escanéame 📱", 
+            use_container_width=False
+        )
+    else:
+        st.markdown("<p style='color:#888; text-align:center;'>QR no disponible</p>", unsafe_allow_html=True)
+
+st.markdown("</div>", unsafe_allow_html=True)
+
 
 
 
