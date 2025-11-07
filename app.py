@@ -1256,34 +1256,81 @@ st.markdown(f"""
 }}
 </style>
 #prueba
-<div class="footer-container">
-    <div class="footer-text">
-        <h4>💼 Simulador Real de Inversiones</h4>
-        <p>
-            ¿Tienes algún problema o sugerencia? 
-            <strong>Comunícate con el área de mantenimiento</strong> 
-            escaneando el código QR o escribiéndonos directamente.
-        </p>
+import base64
+QR_IMAGE_PATH = os.path.join("telegram", "qr_contacto.png") 
+# Asegúrate de tener una imagen llamada 'qr_contacto.png' dentro de la carpeta 'telegram'.
+
+# --- 2. FUNCIÓN DE UTILIDAD ---
+def get_image_base64(path):
+    """Convierte una imagen local en una cadena Base64 Data URI."""
+    try:
+        if not os.path.exists(path):
+            st.error(f"¡Error! No se encontró la imagen en la ruta: '{path}'")
+            return None
+            
+        with open(path, "rb") as image_file:
+            base64_string = base64.b64encode(image_file.read()).decode('utf-8')
+            # Retorna la Data URI completa: 'data:image/png;base64,...'
+            return f"data:image/png;base64,{base64_string}"
+    except Exception as e:
+        st.error(f"Error al codificar la imagen a Base64: {e}")
+        return None
+
+# --- 3. CONTENIDO PRINCIPAL DE LA APP ---
+st.title("Ejemplo de Simulador de Inversiones")
+st.write("Aquí iría el contenido principal de tu aplicación.")
+st.header("...")
+# Agrega espacio para que el footer sea visible
+for _ in range(5):
+    st.write("")
+
+# --- 4. GENERACIÓN DEL FOOTER ---
+# Intenta obtener la cadena Base64 de la imagen
+base64_qr_code = get_image_base64(QR_IMAGE_PATH)
+
+if base64_qr_code:
+    # Estilos CSS para el pie de página
+    # Se utiliza Flexbox para simular las columnas (texto y QR)
+    footer_html = f"""
+    <div style="
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #f1f1f1; /* Color de fondo suave */
+        padding: 10px 20px;
+        border-top: 2px solid #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-sizing: border-box;
+    ">
+        <div style="flex: 4; padding-right: 20px;">
+            <h4 style="margin: 0 0 5px 0; font-size: 1.1em;">💼 Simulador Real de Inversiones</h4>
+            <p style="margin: 0; font-size: 0.9em;">
+                ¿Tienes algún problema o sugerencia? 
+                <strong>Comunícate con el área de mantenimiento</strong> 
+                escaneando el código QR o escribiéndonos directamente.
+            </p>
+        </div>
+        <div style="flex: 1.2; text-align: center;">
+            <img 
+                src="{base64_qr_code}" 
+                alt="Código QR de Contacto" 
+                style="width: 120px; height: auto; display: block; margin: 0 auto; border: 1px solid #ccc; border-radius: 5px;"
+            >
+            <p style="font-size: 0.75em; margin-top: 5px; color: #555;">Escanéame 📱</p>
+        </div>
     </div>
-""", unsafe_allow_html=True)
+    """
+    
+    # Renderizar el HTML en Streamlit
+    st.markdown(footer_html, unsafe_allow_html=True)
 
-col1, col2 = st.columns([4, 1.2])
-with col1:
-    st.empty()
-with col2:
-    qr_path = os.path.join("telegram", "qr_contacto.png")
-    if os.path.exists(qr_path):
-        qr_image = Image.open(qr_path)
-        st.image(
-            qr_image, 
-            width=120, 
-            caption="Escanéame 📱", 
-            use_container_width=False
-        )
-    else:
-        st.markdown("<p style='color:#888; text-align:center;'>QR no disponible</p>", unsafe_allow_html=True)
+else:
+    # Mensaje de fallback si la imagen no se encuentra o falla la codificación
+    st.info("El pie de página se omitió porque no se pudo cargar el código QR.")
 
-st.markdown("</div>", unsafe_allow_html=True)
 
 
 
