@@ -1266,15 +1266,8 @@ def img_to_base64(path):
 
 # Crear el HTML del footer con el QR dentro del div
 footer_html = """
-<div style="
-    display: flex; 
-    align-items: center; 
-    gap: 20px; 
-    padding: 10px; 
-    background-color: #f5f5f5; 
-    border-radius: 10px;
-">
-    <div style="flex: 1;">
+<div style="display:flex; align-items:center; gap:20px; padding:10px; background-color:#f5f5f5; border-radius:10px;">
+    <div style="flex:1;">
         <h4>💼 Simulador Real de Inversiones</h4>
         <p>
             ¿Tienes algún problema o sugerencia? 
