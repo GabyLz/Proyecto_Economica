@@ -273,7 +273,7 @@ with st.sidebar:
     st.session_state.current_theme = theme
     
     font_size = st.slider("Tamaño de letra (px)", 12, 20, 14)
-    compact = st.checkbox("Compactar espacios", value=False)
+    compact = False
     
     st.markdown("---")
     
@@ -1284,4 +1284,5 @@ with col2:
         st.markdown("<p style='color:#888; text-align:center;'>QR no disponible</p>", unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
+
 
