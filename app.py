@@ -1258,52 +1258,58 @@ st.markdown(f"""
 #prueba
 import base64
 QR_IMAGE_PATH = os.path.join("telegram", "qr_contacto.png") 
-# Asegúrate de tener una imagen llamada 'qr_contacto.png' dentro de la carpeta 'telegram'.
 
 # --- 2. FUNCIÓN DE UTILIDAD ---
 def get_image_base64(path):
     """Convierte una imagen local en una cadena Base64 Data URI."""
     try:
         if not os.path.exists(path):
-            st.error(f"¡Error! No se encontró la imagen en la ruta: '{path}'")
+            # Si el archivo no existe, devuelve None
             return None
             
         with open(path, "rb") as image_file:
             base64_string = base64.b64encode(image_file.read()).decode('utf-8')
             # Retorna la Data URI completa: 'data:image/png;base64,...'
             return f"data:image/png;base64,{base64_string}"
+            
     except Exception as e:
+        # En caso de error de lectura o codificación
         st.error(f"Error al codificar la imagen a Base64: {e}")
         return None
 
 # --- 3. CONTENIDO PRINCIPAL DE LA APP ---
+st.set_page_config(layout="wide") # Opcional: para usar todo el ancho
 st.title("Ejemplo de Simulador de Inversiones")
 st.write("Aquí iría el contenido principal de tu aplicación.")
-st.header("...")
-# Agrega espacio para que el footer sea visible
-for _ in range(5):
-    st.write("")
 
-# --- 4. GENERACIÓN DEL FOOTER ---
-# Intenta obtener la cadena Base64 de la imagen
+# Agrega espacio de ejemplo para simular una página larga
+for i in range(30):
+    st.write(f"Contenido de la aplicación, línea {i+1}...")
+
+# --- 4. GENERACIÓN Y RENDERIZADO DEL FOOTER ---
+
+# 4.1. Intentar obtener la cadena Base64
 base64_qr_code = get_image_base64(QR_IMAGE_PATH)
 
 if base64_qr_code:
-    # Estilos CSS para el pie de página
-    # Se utiliza Flexbox para simular las columnas (texto y QR)
+    # 4.2. Definición del HTML con Base64 INCORPORADO
+    # NOTA: Se usan comillas triples """ para cadenas multilínea.
+    # El HTML utiliza 'position: fixed' para mantenerse visible en el fondo.
     footer_html = f"""
     <div style="
         position: fixed;
         bottom: 0;
         left: 0;
         width: 100%;
-        background-color: #f1f1f1; /* Color de fondo suave */
+        background-color: #f1f1f1; 
         padding: 10px 20px;
         border-top: 2px solid #ddd;
-        display: flex;
+        display: flex; /* Usa flexbox para las 'columnas' */
         align-items: center;
         justify-content: space-between;
-        box-sizing: border-box;">
+        box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        z-index: 1000; /* Asegura que esté sobre otros elementos */
+    ">
         <div style="flex: 4; padding-right: 20px;">
             <h4 style="margin: 0 0 5px 0; font-size: 1.1em;">💼 Simulador Real de Inversiones</h4>
             <p style="margin: 0; font-size: 0.9em;">
@@ -1323,13 +1329,12 @@ if base64_qr_code:
     </div>
     """
     
-    # Renderizar el HTML en Streamlit
+    # 4.3. Renderizar el HTML
     st.markdown(footer_html, unsafe_allow_html=True)
 
 else:
-    # Mensaje de fallback si la imagen no se encuentra o falla la codificación
-    st.info("El pie de página se omitió porque no se pudo cargar el código QR.")
-
+    # 4.4. Mensaje de advertencia si la imagen no existe
+    st.warning("El pie de página no se cargó completamente. Asegúrate de que el archivo 'telegram/qr_contacto.png' exista.")
 
 
 
