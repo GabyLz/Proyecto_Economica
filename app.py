@@ -1255,34 +1255,46 @@ st.markdown(f"""
     font-size: 15px;
 }}
 </style>
+#PRUEBA
+qr_path = os.path.join("telegram", "qr_contacto.png")
 
-<div class="footer-container">
-    <div class="footer-text">
+#FOOTER
+footer_html = """
+<div style="
+    display: flex; 
+    align-items: center; 
+    gap: 15px; 
+    padding: 10px; 
+    background-color: #f5f5f5; 
+    border-radius: 10px;
+">
+    <div style="flex: 1;">
         <h4>💼 Simulador Real de Inversiones</h4>
         <p>
             ¿Tienes algún problema o sugerencia? 
-            <strong>Comunícate con el área de mantenimiento</strong> 
-            escaneando el código QR o escribiéndonos directamente.
+            <strong>Comunícate con el área de mantenimiento</strong> escaneando el código QR o escribiéndonos directamente.
         </p>
     </div>
-""", unsafe_allow_html=True)
+"""
 
-col1, col2 = st.columns([4, 1.2])
-with col1:
-    st.empty()
-with col2:
-    qr_path = os.path.join("telegram", "qr_contacto.png")
-    if os.path.exists(qr_path):
-        qr_image = Image.open(qr_path)
-        st.image(
-            qr_image, 
-            width=120, 
-            caption="Escanéame 📱", 
-            use_container_width=False
-        )
-    else:
-        st.markdown("<p style='color:#888; text-align:center;'>QR no disponible</p>", unsafe_allow_html=True)
+# Agregar la imagen QR si existe
+if os.path.exists(qr_path):
+    footer_html += f"""
+    <div>
+        <img src="data:image/png;base64,{st.image(qr_path, width=120, output_format='png')}" 
+             style="display:block; margin:auto;" alt="QR Contacto">
+    </div>
+    """
+else:
+    footer_html += """
+    <div>
+        <p style='color:#888; text-align:center;'>QR no disponible</p>
+    </div>
+    """
 
-st.markdown("</div>", unsafe_allow_html=True)
+footer_html += "</div>"
+
+st.markdown(footer_html, unsafe_allow_html=True)
+
 
 
