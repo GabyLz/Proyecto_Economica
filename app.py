@@ -266,7 +266,7 @@ with st.sidebar:
     st.header("Ajustes de diseño ✨")
     theme = st.selectbox(
         "Tema",
-        ["Default", "Verde - Energía", "Azul - Profesional", "Minimal"]
+        ["Default", "Verde - Energía", "Azul - Profesional", "Minimalista"]
     )
     
     # Guardar tema en session_state para otros módulos
@@ -304,7 +304,7 @@ if theme != "Default":
     elif theme == "Azul - Profesional":
         accent_color = "#2563EB"
         accent_hover = "#1D4ED8"
-    elif theme == "Minimal":
+    elif theme == "Minimalista":
         accent_color = "#606060"
         accent_hover = "#404040"
 
@@ -1224,7 +1224,7 @@ if theme == "Verde - Energía":
     footer_border_color = "#10B981"
 elif theme == "Azul - Profesional":
     footer_border_color = "#2563EB"
-elif theme == "Minimal":
+elif theme == "Minimalista":
     footer_border_color = "#606060"
 else:  # Default
     footer_border_color = "#CCCCCC"
@@ -1284,6 +1284,7 @@ with col2:
         st.markdown("<p style='color:#888; text-align:center;'>QR no disponible</p>", unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
+
 
 
 
