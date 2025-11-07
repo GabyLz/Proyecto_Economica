@@ -596,7 +596,7 @@ with tab_acciones:
         })
         st.table(comp_df)
 #prueba
-         st.subheader("Evolución del fondo en el tiempo")
+        st.subheader("Evolución del fondo en el tiempo")
         
         # Ajustar el eje según la modalidad
         if modality == "Mensual":
@@ -1296,6 +1296,7 @@ with col2:
         st.markdown("<p style='color:#888; text-align:center;'>QR no disponible</p>", unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
+
 
 
 
