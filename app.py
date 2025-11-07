@@ -1230,10 +1230,25 @@ elif theme == "Minimalista":
 else:  # Default
     footer_border_color = "#CCCCCC"
 
+import base64
+
+# Ruta del QR
+qr_path = os.path.join("telegram", "qr_contacto.png")
+
+# Convertir la imagen a base64 para incrustarla en HTML
+if os.path.exists(qr_path):
+    with open(qr_path, "rb") as f:
+        data = f.read()
+    qr_base64 = base64.b64encode(data).decode("utf-8")
+    qr_html = f'<img src="data:image/png;base64,{qr_base64}" width="120" style="border-radius:8px;" alt="QR">'
+else:
+    qr_html = '<p style="color:#888; text-align:center;">QR no disponible</p>'
+
+# Renderizar todo el footer en un solo div
 st.markdown(f"""
 <style>
 .footer-container {{
-    border: {footer_border_width} solid {footer_border_color};
+    border: 2px solid #606060;
     border-radius: 15px;
     padding: 20px;
     display: flex;
@@ -1241,22 +1256,20 @@ st.markdown(f"""
     justify-content: space-between;
     transition: all 0.3s ease;
 }}
-
 .footer-text {{
     flex: 1;
+    margin-right: 15px;
 }}
-
 .footer-text h4 {{
     margin-bottom: 5px;
     font-size: 1.1rem;
 }}
-
 .footer-text p {{
     margin: 0;
     font-size: 15px;
 }}
 </style>
-#prueba
+
 <div class="footer-container">
     <div class="footer-text">
         <h4>💼 Simulador Real de Inversiones</h4>
@@ -1266,25 +1279,11 @@ st.markdown(f"""
             escaneando el código QR o escribiéndonos directamente.
         </p>
     </div>
+    {qr_html}
+</div>
 """, unsafe_allow_html=True)
 
-col1, col2 = st.columns([4, 1.2])
-with col1:
-    st.empty()
-with col2:
-    qr_path = os.path.join("telegram", "qr_contacto.png")
-    if os.path.exists(qr_path):
-        qr_image = Image.open(qr_path)
-        st.image(
-            qr_image, 
-            width=120, 
-            caption="Escanéame 📱", 
-            use_container_width=False
-        )
-    else:
-        st.markdown("<p style='color:#888; text-align:center;'>QR no disponible</p>", unsafe_allow_html=True)
 
-st.markdown("</div>", unsafe_allow_html=True)
 
 
 
