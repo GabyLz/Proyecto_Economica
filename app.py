@@ -595,25 +595,37 @@ with tab_acciones:
             "Ganancia neta ($)": [net_gain_withdrawal, total_net_dividends_over_period]
         })
         st.table(comp_df)
-
-        st.subheader("Evolución del fondo en el tiempo")
+#prueba
+         st.subheader("Evolución del fondo en el tiempo")
+        
+        # Ajustar el eje según la modalidad
+        if modality == "Mensual":
+            period_labels = np.arange(1, n_periods + 1)  # Meses consecutivos
+            xaxis_title = "Mes"
+        elif modality == "Trimestral":
+            period_labels = np.arange(1, n_periods + 1)  # Trimestres consecutivos
+            xaxis_title = "Trimestre"
+        else:
+            period_labels = np.arange(1, n_periods + 1)  # Años consecutivos
+            xaxis_title = "Año"
+        
         # Calculamos balances actuales
         balances = breakdown_over_time(initial, annuity, r_period, n_periods)
         df_bal = pd.DataFrame({
-            "Periodo": np.arange(1, n_periods + 1),
+            "Periodo": period_labels,
             "Balance": balances
         })
-
+        
         # Guardamos el gráfico anterior en sesión para comparación
         if "last_chart_df" not in st.session_state:
             st.session_state.last_chart_df = None
         if "last_tea" not in st.session_state:
             st.session_state.last_tea = None
-
+        
         # Crear figura Plotly
         fig = go.Figure()
-
-        # Si hay un gráfico anterior, lo mostramos en gris con su TEA
+        
+        # Gráfico histórico en gris si existe
         if st.session_state.last_chart_df is not None:
             fig.add_trace(go.Scatter(
                 x=st.session_state.last_chart_df["Periodo"],
@@ -622,9 +634,9 @@ with tab_acciones:
                 name=f"TEA = {st.session_state.last_tea:.2f}% (anterior)",
                 line=dict(color='gray', dash='dash', width=2),
                 opacity=0.6,
-                hovertemplate="Periodo %{x}<br>Balance $ %{y:,.2f}<extra></extra>"
+                hovertemplate=f"{xaxis_title} %{x}<br>Balance $ %{y:,.2f}<extra></extra>"
             ))
-
+        
         # Línea actual destacada
         fig.add_trace(go.Scatter(
             x=df_bal["Periodo"],
@@ -632,31 +644,31 @@ with tab_acciones:
             mode='lines',
             name=f"TEA = {tea_pct:.2f}% (actual)",
             line=dict(color='royalblue', width=3),
-            hovertemplate="Periodo %{x}<br>Balance $ %{y:,.2f}<extra></extra>"
+            hovertemplate=f"{xaxis_title} %{x}<br>Balance $ %{y:,.2f}<extra></extra>"
         ))
-
-        # Configuración estética del gráfico
+        
+        # Configuración estética
         fig.update_layout(
             width=800,
             height=400,
-            xaxis_title="Periodo",
+            xaxis_title=xaxis_title,
             yaxis_title="Balance ($)",
             template="plotly_white",
             legend=dict(x=0, y=1.1, orientation="h"),
             margin=dict(l=40, r=20, t=40, b=40)
         )
-
-        # Mostrar gráfico interactivo en Streamlit
+        
+        # Mostrar gráfico interactivo
         st.plotly_chart(
             fig,
             config={
-                "responsive": True,     # hace que el gráfico se adapte al tamaño del contenedor
-                "displaylogo": False,   # quita el logo de Plotly
-                "scrollZoom": True      # permite hacer zoom con la rueda del ratón
+                "responsive": True,
+                "displaylogo": False,
+                "scrollZoom": True
             },
-            width='stretch'    # (opcional) hace que el gráfico ocupe todo el ancho del contenedor
+            use_container_width=True
         )
-
+#prueba
         # Actualizar datos en sesión
         st.session_state.last_chart_df = df_bal.copy()
         st.session_state.last_tea = tea_pct
@@ -1284,6 +1296,7 @@ with col2:
         st.markdown("<p style='color:#888; text-align:center;'>QR no disponible</p>", unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
+
 
 
 
