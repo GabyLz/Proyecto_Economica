@@ -414,4 +414,4 @@ Si la aplicación presenta **errores o fallos**, puedes contactar al equipo de s
 
 **Última actualización**: Noviembre 2025  
 **Versión**: 1.0.0  
-**Equipo de desarrollo**: Cuba Moya, López Malca, Polonio Ramos, Sánchez Vásquez, Zanabria Yrigoin
+**Equipo de desarrollo**:
