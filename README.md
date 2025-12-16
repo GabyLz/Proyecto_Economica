@@ -68,8 +68,8 @@
 
 1. **Clonar el repositorio**
 ```bash
-git clone https://github.com/GabyLz/Simulador-de-inversiones-y-bonos.git
-cd Simulador-de-inversiones-y-bonos
+git clone https://github.com/GabyLz/Proyecto_Economica.git
+cd Proyecto_Economica
 ```
 
 2. **Crear entorno virtual** (recomendado)
@@ -110,7 +110,7 @@ La aplicación estará disponible en `http://localhost:8501`
 ## 📚 Estructura del Proyecto
 
 ```
-Simulador-de-inversiones-y-bonos/
+Proyecto_Economica/
 ├── app.py                          # Aplicación principal (Streamlit)
 ├── requirements.txt                # Dependencias del proyecto
 ├── README.md                       # Este archivo
