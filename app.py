@@ -35,6 +35,25 @@ from modules.chatbot_assistant import show_chatbot, show_chatbot_compact
 # Importar módulo de conversor de monedas
 from modules.fx_ui import show_fx_converter_widget
 
+
+# -----------------------------------------
+# IMPORT finance_core
+# -----------------------------------------
+try:
+    from modules.finances_core import evaluate_project, gradient_arithmetic, gradient_geometric
+    finance_core_import_error = None
+except Exception as e:
+    finance_core_import_error = e
+
+# -----------------------------------------
+# IMPORT UI Evaluador de Proyectos
+# -----------------------------------------
+try:
+    from modules.project_evaluator_ui import show_project_evaluator
+    project_ui_import_error = None
+except Exception as e:
+    project_ui_import_error = e
+
 # Cliente OpenAI
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 st.set_page_config(page_title="Simulador Real de Inversiones", layout="wide")
@@ -406,12 +425,13 @@ st.markdown("---")
 # Inicializar sesión de histórico
 init_user_session()
 
-tab_acciones, tab_bonos, tab_historico, tab_chatbot, tab_fx = st.tabs([
+tab_acciones, tab_bonos, tab_historico, tab_chatbot, tab_fx , tab_project= st.tabs([
     "💰 Acciones", 
     "📈 Bonos", 
     "📜 Mi Histórico",
     "💬 Chatbot IA",
-    "💱 Conversor FX"
+    "💱 Conversor FX",
+    "🏗️ Evaluador de Proyectos"
 ])
 
 # =================
@@ -1292,17 +1312,26 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
+# ----------------------------------------
+# TAB: Evaluador de Proyectos
+# -----------------------------------------
+with tab_project:
 
+    st.header("🏗️ Evaluador de Proyectos Empresariales")
+    st.caption("Interfaz avanzada: VAN · TIR · B/C · Gradientes · Sensibilidad · Monte Carlo · Comparación multicriterio")
 
+    if project_ui_import_error:
+        st.error("❌ No se pudo cargar la interfaz del módulo UI.")
+        st.write(project_ui_import_error)
 
-
-
-
-
-
-
-
-
-
-
-
+        if finance_core_import_error:
+            st.error("❌ Tampoco se pudo cargar el módulo financiero.")
+            st.write(finance_core_import_error)
+        else:
+            st.warning("⚠️ Modo Fallback: solo disponibles funciones básicas.")
+    else:
+        try:
+            show_project_evaluator()
+        except Exception as e:
+            st.warning("⚠️ La interfaz falló. Activando modo seguro.")
+            st.write(e)
